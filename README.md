@@ -56,7 +56,7 @@ cleaner, indentation-based way.
 
 ASE has expressive power equivalent to the S-expressions subset restricted to contain only an
 atom at each beginning of any list whereas each list is required to hold more than one atom.
-Such restrictions makes ASE:
+Such restrictions make ASE:
 
 * **Readable**: looks like a tree of ideas, not a puzzle of brackets.
 * **Minimal**: only atoms + indentation, no extra syntax.
