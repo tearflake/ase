@@ -1,4 +1,4 @@
-# 🌱 What Are Atom-head Symbolic Expressions (ASE)?
+# 🌱 What Are Abstract Syntax Expressions (ASE)?
 
 Most programming languages look like sentences. Lisp looks like math in parentheses:
 
