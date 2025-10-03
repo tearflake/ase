@@ -1,0 +1,82 @@
+////////////////////////////////
+// 🌱 ASE Parser (Pseudocode) //
+////////////////////////////////
+
+// Data structures
+
+Line        : { indent: Int, content: string }
+Tree        : { parent: Int, pos: Int, indent: Int, content: string }
+SExpr       : string | [SExpr]
+
+// Core Parsing Function
+
+function parseASE(source: string): SExpr
+    lines = preprocess(source)
+    ok, mkTree = makeTree(lines)
+    if ok
+        return makeSExpr(mkTree, -1)
+    
+    else
+        return mkTree
+        
+// Preprocessing
+
+function preprocess(source: string): [Line]
+    rawLines = splitByNewline(source)
+    result = []
+
+    for raw in rawLines
+        if raw.trim() == "" 
+            continue
+
+        indent = countLeadingSpaces(raw)
+        content = raw.trimLeft()
+
+        result.push({indent, content})
+
+    return result
+
+// Intermediate tree
+
+function makeTree(lines: [Line]): Bool, Tree
+    tree = []
+    for ln in lines
+        if tree.length == 0
+            tree.push({parent: -1, indent: ln.indent, content: ln.content})
+
+        else
+            idx = tree.length
+            while idx > 0 and tree[idx].indent >= ln.indent
+                idx--
+            
+            if tree[idx].indent >= ln.indent
+                return false, ln.position
+            
+            else
+                tree.push({parent: idx, indent: ln.indent, content: ln.content})
+
+    return true, tree
+
+// Final SExpr
+
+function makeSExpr(tree: Tree, idx: Int): SExpr
+    if tree[idx].content startsWith "**"
+        return "ignore"
+
+    branches = []
+    for branch in tree
+        if tree[branch].parent = idx
+            branches.push(branch)
+    
+    atom = parseAtom(tree[idx].content)
+    if branches.length == 0
+        return atom
+
+    else
+        lst = [atom]
+        for branch in branches
+            mkse = makeSExpr(tree, branch)
+            lst.push(mkse)
+
+        return lst
+
